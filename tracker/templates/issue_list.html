@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+
+<form method="GET" class="row g-2 mb-3">
+  <div class="col-md-4">
+    <input type="text" name="q" value="{{ query }}" placeholder="Search issues..."
+           class="form-control">
+  </div>
+
+  <div class="col-md-3">
+    <select name="status" class="form-control">
+      <option value="ALL" {% if status_filter == "ALL" or not status_filter %}selected{% endif %}>All Status</option>
+      <option value="OPEN" {% if status_filter == "OPEN" %}selected{% endif %}>Open</option>
+      <option value="IN_PROGRESS" {% if status_filter == "IN_PROGRESS" %}selected{% endif %}>In Progress</option>
+      <option value="CLOSED" {% if status_filter == "CLOSED" %}selected{% endif %}>Closed</option>
+    </select>
+  </div>
+
+  <div class="col-md-3">
+    <select name="assigned_to" class="form-control">
+      <option value="ALL" {% if user_filter == "ALL" or not user_filter %}selected{% endif %}>All Users</option>
+      {% for user in users %}
+        <option value="{{ user.id }}" {% if user_filter|default:'' == user.id|stringformat:"s" %}selected{% endif %}>
+          {{ user.username }}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="col-md-2">
+    <button type="submit" class="btn btn-secondary w-100">Filter</button>
+  </div>
+</form>
+
+<a href="{% url 'issue_create' %}" class="btn btn-primary mb-3">+ New Issue</a>
+
+<ul class="list-group">
+  {% for issue in issues %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <div>
+        <a href="{% url 'issue_detail' issue.pk %}">{{ issue.title }}</a>
+        <br>
+        <small class="text-muted">Assigned to: {{ issue.assigned_to|default:"Unassigned" }}</small>
+      </div>
+      <span class="badge bg-info">{{ issue.status }}</span>
+    </li>
+  {% empty %}
+    <li class="list-group-item">No issues found.</li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

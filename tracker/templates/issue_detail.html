@@ -1,0 +1,23 @@
+{% extends "base.html" %} {% block content %}
+<h2>{{ issue.title }}</h2>
+<p>{{ issue.description }}</p>
+<p>Status: <strong>{{ issue.status }}</strong></p>
+<p>Assigned to: {{ issue.assigned_to }}</p>
+<a href="{% url 'issue_edit' issue.pk %}" class="btn btn-warning">Edit</a>
+<a href="{% url 'issue_delete' issue.pk %}" class="btn btn-danger">Delete</a>
+<hr />
+<h4>Comments</h4>
+<ul>
+  {% for comment in comments %}
+  <li><b>{{ comment.author }}:</b> {{ comment.text }}</li>
+  {% empty %}
+  <li>No comments yet.</li>
+  {% endfor %}
+</ul>
+{% if user.is_authenticated %}
+<form method="POST" action="{% url 'add_comment' issue.pk %}">
+  {% csrf_token %}
+  <textarea name="text" class="form-control mb-2"></textarea>
+  <button type="submit" class="btn btn-success">Add Comment</button>
+</form>
+{% endif %} {% endblock %}
