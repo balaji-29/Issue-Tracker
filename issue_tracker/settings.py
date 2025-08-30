@@ -89,7 +89,6 @@ WSGI_APPLICATION = 'issue_tracker.wsgi.application'
 # ✅ PostgreSQL via dj-database-url
 DATABASES = {
     "default": dj_database_url.config(
-        default="sqlite:///" + str(BASE_DIR / "db.sqlite3"),  # fallback for local dev
         conn_max_age=600,
         ssl_require=True,
     )
