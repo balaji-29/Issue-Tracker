@@ -10,7 +10,8 @@ def home(request):
     query = request.GET.get('q')
     if query:
         issues = issues.filter(Q(title__icontains=query) | Q(description__icontains=query))
-
+    elif query == None:
+        query = ""
     # Filter by status
     status_filter = request.GET.get('status')
     if status_filter and status_filter != "ALL":
