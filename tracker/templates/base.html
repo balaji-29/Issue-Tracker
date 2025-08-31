@@ -8,14 +8,12 @@
     />
   </head>
   <body>
-    <div class="container mt-4">
+    <div class="container mt-4 d-flex align-items-center">
       <h1><a href="/" style="text-decoration: none">🐞 Issue Tracker</a></h1>
       {% if user.is_authenticated %}
       <p>
         Welcome, {{ user.username }} |
-        <form method="post" action="{% url 'logout' %}" class="d-flex align-items-center">
-  {% csrf_token %}
-  <button type="submit" class="btn btn-link">Logout</button>
+        <form method="post" action="{% url 'logout' %}" >{% csrf_token %}<button type="submit" class="btn btn-link">Logout</button>
 </form>
 
       </p>
