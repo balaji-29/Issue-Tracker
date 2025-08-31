@@ -8,9 +8,10 @@
     />
   </head>
   <body>
-    <div class="container mt-4 d-flex align-items-center">
+    <div class="container mt-4 ">
       <h1><a href="/" style="text-decoration: none">🐞 Issue Tracker</a></h1>
       {% if user.is_authenticated %}
+      <div class="d-flex align-items-center">
       <p>
         Welcome, {{ user.username }} |
         <form method="post" action="{% url 'logout' %}" >{% csrf_token %}<button type="submit" class="btn btn-link">Logout</button>
@@ -19,6 +20,7 @@
       </p>
       {% else %}
       <p><a href="{% url 'login' %}">Login</a></p>
+      </div>
       {% endif %}
       <hr />
       {% block content %}{% endblock %}
